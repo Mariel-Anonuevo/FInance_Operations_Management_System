@@ -452,8 +452,8 @@ export const activityLogs: ActivityLog[] = [
   { id: '5', timestamp: 'May 18, 02:45 PM', ...ADMIN_LOG_DEFAULTS, action: 'Update Invoice', description: 'Updated invoice INV-2026-0011 — adjusted other charges', reference: 'INV-2026-0011' },
   { id: '6', timestamp: 'May 18, 10:30 AM', ...ADMIN_LOG_DEFAULTS, action: 'Update Client', description: 'Updated contact info for Lazada Philippines', reference: 'CL-001' },
   { id: '7', timestamp: 'May 17, 09:14 AM', ...ADMIN_LOG_DEFAULTS, action: 'Archive', description: 'Archived paid invoice INV-2026-0099 — Globe Telecom', reference: 'INV-2026-0099' },
-  { id: '8', timestamp: 'May 17, 08:50 AM', ...ADMIN_LOG_DEFAULTS, action: 'Login', description: `User ${ADMIN_USER_NAME} logged in to ARCMS` },
-  { id: '9', timestamp: 'May 16, 06:00 PM', ...ADMIN_LOG_DEFAULTS, action: 'Export Report', description: 'Exported monthly Accounts Receivable report as PDF', reference: 'Report' },
+  { id: '8', timestamp: 'May 17, 08:50 AM', ...ADMIN_LOG_DEFAULTS, action: 'Login', description: `User ${ADMIN_USER_NAME} logged in to FOMS` },
+  { id: '9', timestamp: 'May 16, 06:00 PM', ...ADMIN_LOG_DEFAULTS, action: 'Export Report', description: 'Exported monthly Finance Operations report as PDF', reference: 'Report' },
   { id: '10', timestamp: 'May 15, 05:32 PM', ...ADMIN_LOG_DEFAULTS, action: 'Create Invoice', description: 'Created invoice INV-2026-0024 for Shopee Express', reference: 'INV-2026-0024' },
 ];
 

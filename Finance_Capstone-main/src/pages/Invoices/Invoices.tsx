@@ -87,7 +87,7 @@ export default function Invoices() {
     <>
       <Header
         title="Billing & Invoices"
-        subtitle="FOMS · Accounts Receivable"
+        subtitle="FOMS · Billing & Invoices"
         date={new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         actions={
           <Link to="/invoices/new" className="btn btn-primary" id="new-invoice-btn">

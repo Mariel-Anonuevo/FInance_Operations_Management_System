@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FOMS.Proxy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+324b96d71a143251a821454a6364d59fe12d61f0")]
 [assembly: System.Reflection.AssemblyProductAttribute("FOMS.Proxy")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FOMS.Proxy")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px var(--content-padding);
+  padding: 16px var(--content-padding) 16px calc(var(--content-padding) + 16px) !important;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
   position: sticky;

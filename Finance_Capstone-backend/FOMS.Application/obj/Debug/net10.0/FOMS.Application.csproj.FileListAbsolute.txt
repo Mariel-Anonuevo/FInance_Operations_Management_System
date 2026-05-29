@@ -14,3 +14,19 @@ C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backen
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.pdb
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\ref\FOMS.Application.dll
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.sourcelink.json
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\bin\Debug\net10.0\FOMS.Application.deps.json
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\bin\Debug\net10.0\FOMS.Application.dll
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\bin\Debug\net10.0\FOMS.Application.pdb
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\bin\Debug\net10.0\FOMS.Domain.dll
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\bin\Debug\net10.0\FOMS.Domain.pdb
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.csproj.AssemblyReference.cache
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.AssemblyInfoInputs.cache
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.AssemblyInfo.cs
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.csproj.CoreCompileInputs.cache
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.sourcelink.json
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.App.D2CB0746.Up2Date
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.dll
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\refint\FOMS.Application.dll
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.pdb
+C:\Users\Mariel\OneDrive\Documents\FOMS\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\ref\FOMS.Application.dll

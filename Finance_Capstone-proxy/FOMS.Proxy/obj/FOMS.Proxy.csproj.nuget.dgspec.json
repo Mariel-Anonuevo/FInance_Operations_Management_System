@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Crystalyn Joyce\\Downloads\\Finance_Capstone-main\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj": {}
+    "C:\\Users\\Mariel\\OneDrive\\Documents\\FOMS\\FInance_Operations_Management_System\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Crystalyn Joyce\\Downloads\\Finance_Capstone-main\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj": {
+    "C:\\Users\\Mariel\\OneDrive\\Documents\\FOMS\\FInance_Operations_Management_System\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Crystalyn Joyce\\Downloads\\Finance_Capstone-main\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj",
+        "projectUniqueName": "C:\\Users\\Mariel\\OneDrive\\Documents\\FOMS\\FInance_Operations_Management_System\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj",
         "projectName": "FOMS.Proxy",
-        "projectPath": "C:\\Users\\Crystalyn Joyce\\Downloads\\Finance_Capstone-main\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj",
-        "packagesPath": "C:\\Users\\Crystalyn Joyce\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Crystalyn Joyce\\Downloads\\Finance_Capstone-main\\Finance_Capstone-proxy\\FOMS.Proxy\\obj\\",
+        "projectPath": "C:\\Users\\Mariel\\OneDrive\\Documents\\FOMS\\FInance_Operations_Management_System\\Finance_Capstone-proxy\\FOMS.Proxy\\FOMS.Proxy.csproj",
+        "packagesPath": "C:\\Users\\Mariel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mariel\\OneDrive\\Documents\\FOMS\\FInance_Operations_Management_System\\Finance_Capstone-proxy\\FOMS.Proxy\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Crystalyn Joyce\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mariel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

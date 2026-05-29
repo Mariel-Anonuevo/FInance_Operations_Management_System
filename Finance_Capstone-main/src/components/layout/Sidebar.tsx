@@ -116,7 +116,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
 
       <div className="sidebar-logo">
         <div className="login-logo" style={{ padding: '0', background: 'transparent' }}>
-          <img src={logo} alt="ARCMS Logo" style={{ height: '36px', objectFit: 'contain' }} />
+          <img src={logo} alt="FOMS Logo" style={{ height: '36px', objectFit: 'contain' }} />
         </div>
       </div>
 

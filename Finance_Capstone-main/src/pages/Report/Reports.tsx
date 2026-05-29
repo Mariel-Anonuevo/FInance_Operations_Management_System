@@ -75,6 +75,7 @@ export default function Reports() {
 
   const handleExportAR = () => {
     const rows: (string | number)[][] = [
+      ['Finance Operations Management System (FOMS)'],
       ['Accounts Receivable Report'],
       ['Generated', new Date().toISOString()],
       ['Date From', dateFrom || 'All time'],
@@ -130,6 +131,29 @@ export default function Reports() {
 
   return (
     <>
+      {/* Print-only header */}
+      <div className="print-report-header">
+        <div className="print-report-logo-row">
+          <div className="print-report-org">
+            <strong>Finance Operations Management System</strong>
+            <span>FOMS &mdash; Financial Report</span>
+          </div>
+          <div className="print-report-meta">
+            <span>Generated: {new Date().toLocaleString()}</span>
+            <span>Prepared by: {user?.name}</span>
+          </div>
+        </div>
+        <div className="print-report-title">
+          {tab === 'ar' && 'BILLING & RECEIVABLES REPORT'}
+          {tab === 'collection' && 'COLLECTION SUMMARY REPORT'}
+          {tab === 'aging' && 'RECEIVABLES AGING REPORT'}
+        </div>
+        {(dateFrom || dateTo) && (
+          <div className="print-report-period">
+            Period: {dateFrom || 'All time'} &mdash; {dateTo || 'Present'}
+          </div>
+        )}
+      </div>
       <Header
         title="Reports"
         subtitle={`${user?.role} · FOMS`}
@@ -194,7 +218,7 @@ export default function Reports() {
               <div className="report-header">
                 <div>
                   <span className="label" style={{ color: 'var(--primary)' }}>
-                    {tab === 'ar' && 'ACCOUNTS RECEIVABLE REPORT'}
+                    {tab === 'ar' && 'BILLING & RECEIVABLES REPORT'}
                     {tab === 'collection' && 'COLLECTION SUMMARY REPORT'}
                     {tab === 'aging' && 'AGING REPORT'}
                   </span>
@@ -211,7 +235,7 @@ export default function Reports() {
               </div>
             </div>
 
-            <div className="stats-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 'var(--gap)' }}>
+            <div className="reports-stats-row">
               <StatCard
                 icon={<FileBarChart size={18} />}
                 iconColor="var(--primary)"
