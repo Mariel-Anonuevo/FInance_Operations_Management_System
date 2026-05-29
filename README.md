@@ -8,6 +8,25 @@ The Finance Operations Management System (FOMS) is a logistics-focused financial
 
 ## Technologies and Deployment
 
+### Frontend
+
+The frontend is responsible for the user interface and user experience of the system.
+
+Technologies Used:
+
+- React – Builds responsive and interactive user interfaces
+- Figma – Used for UI/UX design, wireframing, and prototyping
+
+### Backend
+
+The backend manages system logic, API services, authentication, financial processing, and communication between the frontend and database.
+
+Technologies Used:
+
+- ASP.NET Web API – Handles business logic and API development
+- Swagger – API testing and documentation
+- YARP (Yet Another Reverse Proxy) – API gateway and request routing between services
+
 ### Docker
 
 The system uses Docker for containerization to simplify deployment, maintain environment consistency, and improve system portability.
