@@ -175,7 +175,7 @@ export default function Login() {
               />
             </div>
             <small style={{ color: 'var(--text-secondary)', fontSize: '11px', marginTop: '4px', display: 'block' }}>
-              Try: EMP-001 (Admin) or EMP-002 (Op. Team). Password: password123
+              Try: EMP-002 (Admin) or EMP-003 (Op. Team). Password: password123
             </small>
           </div>
 

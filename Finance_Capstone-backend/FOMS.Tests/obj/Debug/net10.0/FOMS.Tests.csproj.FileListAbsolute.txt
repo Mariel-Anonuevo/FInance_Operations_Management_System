@@ -162,3 +162,4 @@ C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backen
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Tests\obj\Debug\net10.0\FOMS.Tests.pdb
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Tests\obj\Debug\net10.0\FOMS.Tests.genruntimeconfig.cache
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Tests\obj\Debug\net10.0\ref\FOMS.Tests.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Tests\obj\Debug\net10.0\FOMS.Tests.sourcelink.json

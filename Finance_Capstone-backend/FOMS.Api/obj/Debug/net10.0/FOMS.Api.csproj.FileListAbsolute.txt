@@ -168,3 +168,4 @@ C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backen
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Api\obj\Debug\net10.0\FOMS.Api.pdb
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Api\obj\Debug\net10.0\FOMS.Api.genruntimeconfig.cache
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Api\obj\Debug\net10.0\ref\FOMS.Api.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Api\obj\Debug\net10.0\FOMS.Api.sourcelink.json

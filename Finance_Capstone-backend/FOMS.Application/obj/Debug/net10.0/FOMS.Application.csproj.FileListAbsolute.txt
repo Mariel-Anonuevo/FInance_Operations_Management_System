@@ -13,3 +13,4 @@ C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backen
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\refint\FOMS.Application.dll
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.pdb
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\ref\FOMS.Application.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Application\obj\Debug\net10.0\FOMS.Application.sourcelink.json

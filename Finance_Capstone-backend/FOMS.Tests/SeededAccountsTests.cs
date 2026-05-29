@@ -16,7 +16,7 @@ public class SeededAccountsTests
 
         await ApplicationDbContextSeed.SeedSampleDataAsync(context);
 
-        var employee = await context.Employees.SingleOrDefaultAsync(e => e.Id == "EMP-001");
+        var employee = await context.Employees.SingleOrDefaultAsync(e => e.Id == "EMP-002");
 
         Assert.NotNull(employee);
         Assert.Equal("password123", employee!.PasswordHash);

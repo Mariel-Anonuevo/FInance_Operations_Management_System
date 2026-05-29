@@ -9,3 +9,4 @@ C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backen
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\refint\FOMS.Domain.dll
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.pdb
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\ref\FOMS.Domain.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.sourcelink.json

@@ -19,6 +19,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const savedUser = localStorage.getItem(STORAGE_KEY);
       if (!savedUser) return null;
       const parsed = JSON.parse(savedUser) as Employee;
+      if (parsed.name === 'Taromaru Rex Gabriel') {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
       if (parsed.role !== 'ADMIN' && parsed.role !== 'OP. TEAM') {
         localStorage.removeItem(STORAGE_KEY);
         return null;

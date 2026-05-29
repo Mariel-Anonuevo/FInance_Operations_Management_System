@@ -16,19 +16,9 @@ public static class ApplicationDbContextSeed
         {
             new Employee
             {
-                Id = "EMP-001",
-                Name = "Taromaru Rex Gabriel",
-                Role = "ADMIN",
-                SystemAccess = "All Systems",
-                Status = "Active",
-                Username = "EMP-001",
-                PasswordHash = "password123"
-            },
-            new Employee
-            {
                 Id = "EMP-002",
-                Name = "John Angelo M. Reveche",
-                Role = "OP. TEAM",
+                Name = "Crystalyn Joyce C. Fajardo",
+                Role = "ADMIN",
                 SystemAccess = "AR & Billing",
                 Status = "Active",
                 Username = "EMP-002",
@@ -72,6 +62,14 @@ public static class ApplicationDbContextSeed
             {
                 context.Employees.Add(demoEmployee);
             }
+        }
+
+        // Delete any employees not in the seed list to keep it clean
+        var seedIds = demoEmployees.Select(e => e.Id).ToList();
+        var extraEmployees = await context.Employees.Where(e => !seedIds.Contains(e.Id)).ToListAsync();
+        if (extraEmployees.Any())
+        {
+            context.Employees.RemoveRange(extraEmployees);
         }
 
         await context.SaveChangesAsync();

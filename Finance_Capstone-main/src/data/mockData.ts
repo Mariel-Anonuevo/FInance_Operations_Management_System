@@ -9,8 +9,7 @@ import type {
 import { computeInvoiceTotals, getAgingBucket, derivePaymentStatus } from '../utils/finance';
 
 export const employees: Employee[] = [
-  { id: 'EMP-001', name: 'Taromaru Rex Gabriel', role: 'ADMIN', systemAccess: 'All Systems', status: 'Active' },
-  { id: 'EMP-002', name: 'John Angelo M. Reveche', role: 'OP. TEAM', systemAccess: 'AR & Billing', status: 'Active' },
+  { id: 'EMP-002', name: 'Crystalyn Joyce C. Fajardo', role: 'ADMIN', systemAccess: 'AR & Billing', status: 'Active' },
   { id: 'EMP-003', name: 'Conag, Reca M.', role: 'OP. TEAM', systemAccess: 'AR & Billing', status: 'Active' },
   { id: 'EMP-004', name: 'David Jr. M. Gabriel', role: 'OP. TEAM', systemAccess: 'AR & Billing', status: 'Active' },
 ];
