@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
-import { ShieldAlert, CheckCircle, XCircle, Plus, FileText } from 'lucide-react';
+import { ShieldAlert, CheckCircle, XCircle, Plus, FileText, Calendar, DollarSign, User, ClipboardList, CheckSquare } from 'lucide-react';
+import Header from '../../components/layout/Header';
+import StatCard from '../../components/ui/StatCard';
+import { formatCurrency, formatDate } from '../../utils/finance';
 
 export default function DeliveryValidation() {
   const { validations, invoices, submitValidation, verifyValidation } = useData();
@@ -11,10 +14,31 @@ export default function DeliveryValidation() {
   const [amountCollected, setAmountCollected] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Filters
-  const pendingInvoices = invoices.filter((i) => i.balance > 0 && i.paymentStatus !== 'Paid');
-  const pendingValidations = validations.filter((v) => v.status === 'Pending');
-  const processedValidations = validations.filter((v) => v.status !== 'Pending');
+  // Filters & Computations
+  const pendingInvoices = useMemo(() => 
+    invoices.filter((i) => i.balance > 0 && i.paymentStatus !== 'Paid'),
+    [invoices]
+  );
+
+  const pendingValidations = useMemo(() => 
+    validations.filter((v) => v.status === 'Pending'),
+    [validations]
+  );
+
+  const processedValidations = useMemo(() => 
+    validations.filter((v) => v.status !== 'Pending'),
+    [validations]
+  );
+
+  const totalPendingAmount = useMemo(() => 
+    pendingValidations.reduce((sum, v) => sum + v.amountCollected, 0),
+    [pendingValidations]
+  );
+
+  const totalReconciledAmount = useMemo(() => 
+    processedValidations.filter(v => v.status === 'Approved').reduce((sum, v) => sum + v.amountCollected, 0),
+    [processedValidations]
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,192 +70,330 @@ export default function DeliveryValidation() {
   };
 
   return (
-    <div className="p-6 w-full space-y-8 animate-fadeIn">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-            Delivery COD Payment Reconciliations
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Validate Cash-on-Delivery (COD) collections submitted by delivery drivers against open invoices.
-          </p>
+    <>
+      <Header
+        title="Delivery COD Payment Reconciliations"
+        subtitle="Billing · FOMS"
+        actions={
+          <button
+            onClick={() => setShowSubmitForm(!showSubmitForm)}
+            className="btn btn-primary rounded-xl shadow-lg flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
+          >
+            <Plus size={18} />
+            {showSubmitForm ? 'CLOSE VIEW' : 'SUBMIT DRIVER LOG'}
+          </button>
+        }
+      />
+
+      <div className="dashboard-content animate-fade-in">
+        {/* Stats Row */}
+        <div className="stats-row" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          <StatCard
+            icon={<ShieldAlert size={18} />}
+            iconColor="var(--status-pending)"
+            iconBg="var(--status-pending-bg)"
+            label="PENDING RECONCILIATIONS"
+            value={formatCurrency(totalPendingAmount)}
+            subtitle={`${pendingValidations.length} items awaiting audit`}
+            accentColor="#FFB547"
+          />
+          <StatCard
+            icon={<CheckSquare size={18} />}
+            iconColor="var(--status-active)"
+            iconBg="var(--status-active-bg)"
+            label="RECONCILED COD"
+            value={formatCurrency(totalReconciledAmount)}
+            subtitle="Successfully approved & credited"
+            accentColor="#01B574"
+          />
+          <StatCard
+            icon={<ClipboardList size={18} />}
+            iconColor="var(--status-new)"
+            iconBg="var(--status-new-bg)"
+            label="PROCESSED COUNT"
+            value={processedValidations.length}
+            subtitle={`${validations.length} total validation claims`}
+            accentColor="#4318FF"
+          />
         </div>
 
-        <button
-          onClick={() => setShowSubmitForm(!showSubmitForm)}
-          className="btn btn-dark rounded-xl shadow-md flex items-center gap-2 cursor-pointer"
-        >
-          <Plus size={18} />
-          {showSubmitForm ? 'CLOSE VIEW' : 'SUBMIT DRIVER LOG'}
-        </button>
-      </div>
-
-      {showSubmitForm && (
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm max-w-3xl animate-scaleUp space-y-6">
-          <h2 className="text-lg font-bold text-gray-800 border-b pb-3 flex items-center gap-2">
-            Log Driver Collection Validation
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600">Select Invoice</label>
-                <select
-                  value={invoiceNo}
-                  onChange={(e) => setInvoiceNo(e.target.value)}
-                  required
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
-                >
-                  <option value="">-- Choose Invoice --</option>
-                  {pendingInvoices.map((inv) => (
-                    <option key={inv.id} value={inv.invoiceNo}>
-                      {inv.invoiceNo} - {inv.clientName} (Bal: PHP {inv.balance.toLocaleString()})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600">Driver Name</label>
-                <input
-                  type="text"
-                  required
-                  value={driverName}
-                  onChange={(e) => setDriverName(e.target.value)}
-                  placeholder="e.g. Juan Dela Cruz, Cardo Dalisay"
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2 col-span-2">
-                <label className="text-sm font-semibold text-gray-600">Total COD Amount Collected (PHP)</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  required
-                  value={amountCollected}
-                  onChange={(e) => setAmountCollected(e.target.value)}
-                  placeholder="e.g., 29550.00"
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
-                />
-              </div>
+        {showSubmitForm && (
+          <div className="card animate-scale-in" style={{ maxWidth: '800px', border: '1.5px solid var(--primary)' }}>
+            <div className="card-header" style={{ marginBottom: '24px' }}>
+              <h3 className="flex items-center gap-2 text-lg font-bold">
+                <DollarSign size={18} color="var(--primary)" />
+                Submit Driver Cash-on-Delivery Log
+              </h3>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-[#00A99D] hover:bg-[#009189] text-white font-bold rounded-xl shadow-md transition-all cursor-pointer"
-            >
-              {loading ? 'Submitting...' : 'LOG COLLECTION'}
-            </button>
-          </form>
-        </div>
-      )}
-
-      {/* Pending Validation Queue */}
-      <div className="bg-white rounded-2xl border border-[#00A99D]/20 shadow-sm p-6 space-y-4">
-        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2 border-b pb-3">
-          <ShieldAlert className="text-[#00A99D] w-5 h-5" />
-          Pending Approvals Queue
-        </h2>
-
-        {pendingValidations.length === 0 ? (
-          <div className="p-8 text-center text-gray-400 text-sm">
-            No driver collections pending validation.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {pendingValidations.map((val) => (
-              <div key={val.id} className="border border-gray-200 rounded-2xl p-5 hover:border-gray-300 transition-all flex flex-col justify-between space-y-4">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-start">
-                    <span className="px-2 py-0.5 bg-yellow-50 text-yellow-600 text-xs font-extrabold rounded-md uppercase border border-yellow-100">
-                      Pending Reconciliation
-                    </span>
-                    <span className="text-xs text-gray-400 font-medium">{val.dateSubmitted}</span>
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-[#1B254B]">Invoice: {val.invoiceNo}</h4>
-                    <p className="text-sm text-gray-600 font-semibold">{val.clientName}</p>
-                    <p className="text-xs text-gray-500">Collected By: <span className="font-bold">{val.driverName}</span></p>
-                    <p className="text-lg font-black text-[#00A99D] pt-1">
-                      PHP {val.amountCollected.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                    </p>
-                  </div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
+                <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                  <label className="form-label">Select Invoice</label>
+                  <select
+                    value={invoiceNo}
+                    onChange={(e) => setInvoiceNo(e.target.value)}
+                    required
+                    className="form-input"
+                  >
+                    <option value="">-- Choose Invoice --</option>
+                    {pendingInvoices.map((inv) => (
+                      <option key={inv.id} value={inv.invoiceNo}>
+                        {inv.invoiceNo} - {inv.clientName} (Bal: {formatCurrency(inv.balance)})
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <button
-                    onClick={() => handleAction(val.id, 'Approved')}
-                    className="py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1 shadow-sm transition-all cursor-pointer"
-                  >
-                    <CheckCircle size={14} /> APPROVE & CREDIT
-                  </button>
-                  <button
-                    onClick={() => handleAction(val.id, 'Rejected')}
-                    className="py-2.5 bg-rose-50 hover:bg-rose-100 text-[#E31A1A] font-bold rounded-lg text-xs flex items-center justify-center gap-1 border border-rose-100 transition-all cursor-pointer"
-                  >
-                    <XCircle size={14} /> REJECT CLAIM
-                  </button>
+                <div className="form-group">
+                  <label className="form-label">Driver Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={driverName}
+                    onChange={(e) => setDriverName(e.target.value)}
+                    placeholder="e.g. Juan Dela Cruz, Cardo Dalisay"
+                    className="form-input"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Total COD Amount Collected (PHP)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    required
+                    value={amountCollected}
+                    onChange={(e) => setAmountCollected(e.target.value)}
+                    placeholder="e.g., 29550.00"
+                    className="form-input"
+                  />
                 </div>
               </div>
-            ))}
+
+              <div className="flex gap-sm justify-end" style={{ marginTop: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowSubmitForm(false)}
+                  className="btn btn-outline"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn btn-primary"
+                >
+                  {loading ? 'Submitting...' : 'LOG COLLECTION'}
+                </button>
+              </div>
+            </form>
           </div>
         )}
-      </div>
 
-      {/* History log list */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
-        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2 border-b pb-3">
-          <FileText className="text-[#00A99D] w-5 h-5" />
-          Processed reconciliations
-        </h2>
-
-        {processedValidations.length === 0 ? (
-          <div className="p-8 text-center text-gray-400 text-sm">
-            No validations processed yet.
+        {/* Pending Approvals Queue */}
+        <div className="card">
+          <div className="card-header">
+            <h3 className="flex items-center gap-2">
+              <ShieldAlert size={16} color="var(--status-pending)" />
+              Pending Approvals Queue
+            </h3>
+            <span className="text-muted text-sm font-semibold">{pendingValidations.length} pending audit</span>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+
+          {pendingValidations.length === 0 ? (
+            <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+              No driver collections pending validation.
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
+              {pendingValidations.map((val) => (
+                <div
+                  key={val.id}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    padding: '24px',
+                    borderRadius: '16px',
+                    border: '1.5px solid rgba(255, 181, 71, 0.4)',
+                    background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)',
+                    boxShadow: 'var(--shadow-sm)',
+                    transition: 'all 0.2s ease-in-out'
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span
+                        style={{
+                          background: 'var(--status-pending-bg)',
+                          color: 'var(--status-pending)',
+                          fontWeight: '800',
+                          padding: '6px 12px',
+                          borderRadius: '8px',
+                          fontSize: '0.7rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em'
+                        }}
+                      >
+                        PENDING AUDIT
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: 'var(--text-tertiary)', fontWeight: 600 }}>
+                        <Calendar size={13} />
+                        {formatDate(val.dateSubmitted)}
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                        Invoice: {val.invoiceNo}
+                      </h4>
+                      <p style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', margin: 0 }}>
+                        {val.clientName}
+                      </p>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', color: 'var(--text-tertiary)', marginTop: '4px' }}>
+                        <User size={14} />
+                        <span>Driver: <strong style={{ color: 'var(--text-primary)' }}>{val.driverName}</strong></span>
+                      </div>
+
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '12px 16px',
+                        background: '#F8FAFC',
+                        border: '1px solid #E2E8F0',
+                        borderRadius: '12px',
+                        marginTop: '12px'
+                      }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-tertiary)' }}>COLLECTED COD</span>
+                        <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#00A99D' }}>{formatCurrency(val.amountCollected)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '24px' }}>
+                    <button
+                      onClick={() => handleAction(val.id, 'Approved')}
+                      className="btn btn-primary"
+                      style={{
+                        padding: '10px 16px',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        background: 'var(--status-active)',
+                        borderColor: 'var(--status-active)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <CheckCircle size={14} /> APPROVE & CREDIT
+                    </button>
+                    <button
+                      onClick={() => handleAction(val.id, 'Rejected')}
+                      className="btn btn-outline"
+                      style={{
+                        padding: '10px 16px',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        color: 'var(--status-failed)',
+                        borderColor: 'rgba(227, 26, 26, 0.3)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <XCircle size={14} /> REJECT CLAIM
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Processed History Log */}
+        <div className="card">
+          <div className="card-header">
+            <h3 className="flex items-center gap-2">
+              <FileText size={16} color="var(--primary)" />
+              Reconciliation History Log
+            </h3>
+            <span className="text-muted text-sm font-semibold">{processedValidations.length} processed entries</span>
+          </div>
+
+          {processedValidations.length === 0 ? (
+            <div className="p-12 text-center text-gray-400 text-sm">
+              No validations processed yet.
+            </div>
+          ) : (
+            <table className="data-table">
               <thead>
-                <tr className="border-b border-gray-100 text-sm font-bold text-gray-400">
-                  <th className="py-3 px-4">Invoice No</th>
-                  <th className="py-3 px-4">Client Name</th>
-                  <th className="py-3 px-4">Driver Name</th>
-                  <th className="py-3 px-4">Reconciled Amount</th>
-                  <th className="py-3 px-4">Verification</th>
-                  <th className="py-3 px-4">Submitted Date</th>
+                <tr>
+                  <th>INVOICE NO</th>
+                  <th>CLIENT NAME</th>
+                  <th>DRIVER NAME</th>
+                  <th>RECONCILED AMOUNT</th>
+                  <th>VERIFICATION STATUS</th>
+                  <th>SUBMITTED DATE</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50 text-sm text-gray-700">
+              <tbody>
                 {processedValidations.map((val) => (
-                  <tr key={val.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="py-3 px-4 font-bold text-gray-800">{val.invoiceNo}</td>
-                    <td className="py-3 px-4 font-semibold text-gray-800">{val.clientName}</td>
-                    <td className="py-3 px-4 text-gray-600 font-semibold">{val.driverName}</td>
-                    <td className="py-3 px-4 font-extrabold text-gray-900">
-                      PHP {val.amountCollected.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  <tr key={val.id}>
+                    <td>
+                      <span className="font-bold" style={{ color: 'var(--primary)' }}>{val.invoiceNo}</span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={`px-2.5 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1 ${
-                          val.status === 'Approved' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-[#E31A1A]'
-                        }`}
-                      >
-                        {val.status === 'Approved' ? <CheckCircle size={12} /> : <XCircle size={12} />}
-                        {val.status}
+                    <td>
+                      <span className="cell-name">{val.clientName}</span>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-sm">
+                        <User size={14} className="text-gray-400" />
+                        <span className="font-semibold text-gray-700">{val.driverName}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="font-extrabold text-gray-800" style={{ color: '#1B254B' }}>
+                        {formatCurrency(val.amountCollected)}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-gray-500 font-medium">{val.dateSubmitted}</td>
+                    <td>
+                      <span
+                        className="btn btn-sm inline-flex items-center gap-1"
+                        style={{
+                          background: val.status === 'Approved' ? 'var(--status-active-bg)' : 'var(--status-failed-bg)',
+                          color: val.status === 'Approved' ? 'var(--status-active)' : 'var(--status-failed)',
+                          fontWeight: '800',
+                          padding: '3px 10px',
+                          borderRadius: 'var(--radius-full)',
+                          fontSize: '10px'
+                        }}
+                      >
+                        {val.status === 'Approved' ? <CheckCircle size={12} /> : <XCircle size={12} />}
+                        {val.status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-sm">
+                        <Calendar size={14} className="text-gray-400" />
+                        <span className="font-semibold text-gray-500">{formatDate(val.dateSubmitted)}</span>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

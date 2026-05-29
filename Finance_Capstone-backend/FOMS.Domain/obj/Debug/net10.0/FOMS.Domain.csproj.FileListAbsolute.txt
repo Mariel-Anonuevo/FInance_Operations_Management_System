@@ -10,3 +10,15 @@ C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backen
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.pdb
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\ref\FOMS.Domain.dll
 C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.sourcelink.json
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\bin\Debug\net10.0\FOMS.Domain.deps.json
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\bin\Debug\net10.0\FOMS.Domain.dll
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\bin\Debug\net10.0\FOMS.Domain.pdb
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.AssemblyInfoInputs.cache
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.AssemblyInfo.cs
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.sourcelink.json
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.dll
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\refint\FOMS.Domain.dll
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\FOMS.Domain.pdb
+C:\Users\Joana\OneDrive\Desktop\CAPSTONE\FInance_Operations_Management_System\Finance_Capstone-backend\FOMS.Domain\obj\Debug\net10.0\ref\FOMS.Domain.dll
