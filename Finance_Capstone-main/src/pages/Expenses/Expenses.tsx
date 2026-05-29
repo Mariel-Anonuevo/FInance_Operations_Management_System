@@ -1,6 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
-import { Fuel, Plus, FileText, AlertCircle } from 'lucide-react';
+import { Fuel, Plus, FileText, AlertCircle, Calendar, User, Clipboard, TrendingDown, DollarSign } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import Header from '../../components/layout/Header';
+import StatCard from '../../components/ui/StatCard';
+import { formatCurrency, formatDate, currencyTooltipFormatter } from '../../utils/finance';
+
+const CATEGORY_COLORS: Record<string, string> = {
+  Fuel: '#FFB547',       // Amber/Orange
+  Toll: '#4318FF',       // Blue/Indigo
+  Maintenance: '#E31A1A', // Red
+  Allowance: '#00A99D'   // Teal
+};
 
 export default function Expenses() {
   const { expenses, addExpense } = useData();
@@ -13,8 +24,34 @@ export default function Expenses() {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Calculate sum of fleet operational costs
-  const totalFleetExpense = expenses.reduce((sum, e) => sum + e.amount, 0);
+  // Compute stats
+  const totalFleetExpense = useMemo(() => 
+    expenses.reduce((sum, e) => sum + e.amount, 0),
+    [expenses]
+  );
+
+  const averageExpense = useMemo(() => 
+    expenses.length > 0 ? totalFleetExpense / expenses.length : 0,
+    [expenses, totalFleetExpense]
+  );
+
+  // Recharts pie data
+  const pieChartData = useMemo(() => {
+    const totals: Record<string, number> = { Fuel: 0, Toll: 0, Maintenance: 0, Allowance: 0 };
+    expenses.forEach(e => {
+      if (totals[e.expenseType] !== undefined) {
+        totals[e.expenseType] += e.amount;
+      }
+    });
+
+    return Object.entries(totals)
+      .map(([name, value]) => ({
+        name,
+        value,
+        color: CATEGORY_COLORS[name] || '#8F9BBA'
+      }))
+      .filter(item => item.value > 0);
+  }, [expenses]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,182 +74,272 @@ export default function Expenses() {
   };
 
   return (
-    <div className="p-6 w-full space-y-8 animate-fadeIn">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-            Transportation Expense Monitoring
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Track and reconcile logistics fuel expenditures, driver allowances, toll ways, and vehicle repairs.
-          </p>
+    <>
+      <Header
+        title="Transportation Expense Monitoring"
+        subtitle="Operations · FOMS"
+        actions={
+          <button
+            onClick={() => setShowLogForm(!showLogForm)}
+            className="btn btn-primary rounded-xl shadow-lg flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
+          >
+            <Plus size={18} />
+            {showLogForm ? 'CLOSE VIEW' : 'LOG FLEET EXPENSE'}
+          </button>
+        }
+      />
+
+      <div className="dashboard-content animate-fade-in">
+        {/* Overview cards */}
+        <div className="stats-row" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          <StatCard
+            icon={<Fuel size={18} />}
+            iconColor="var(--primary)"
+            iconBg="var(--status-transit-bg)"
+            label="LOGISTICS EXPENDITURE"
+            value={formatCurrency(totalFleetExpense)}
+            subtitle="Total fleet operational cost"
+            accentColor="#00A99D"
+          />
+          <StatCard
+            icon={<TrendingDown size={18} />}
+            iconColor="var(--status-pending)"
+            iconBg="var(--status-pending-bg)"
+            label="AVERAGE EXPENSE"
+            value={formatCurrency(averageExpense)}
+            subtitle="Per logged transaction"
+            accentColor="#FFB547"
+          />
+          <StatCard
+            icon={<Clipboard size={18} />}
+            iconColor="var(--status-new)"
+            iconBg="var(--status-new-bg)"
+            label="LOGGED TRANSACTIONS"
+            value={expenses.length}
+            subtitle="Total logs in system"
+            accentColor="#4318FF"
+          />
         </div>
 
-        <button
-          onClick={() => setShowLogForm(!showLogForm)}
-          className="btn btn-dark rounded-xl shadow-md flex items-center gap-2 cursor-pointer"
-        >
-          <Plus size={18} />
-          {showLogForm ? 'CLOSE VIEW' : 'LOG FLEET EXPENSE'}
-        </button>
-      </div>
+        {showLogForm && (
+          <div className="card animate-scale-in" style={{ maxWidth: '800px', border: '1.5px solid var(--primary)' }}>
+            <div className="card-header" style={{ marginBottom: '24px' }}>
+              <h3 className="flex items-center gap-2 text-lg font-bold">
+                <DollarSign size={18} color="var(--primary)" />
+                Log Fleet operational Expense
+              </h3>
+            </div>
 
-      {/* Overview Card */}
-      <div className="bg-[#1B254B] text-white rounded-2xl p-6 shadow-lg shadow-[#1B254B]/15 flex items-center justify-between max-w-xl">
-        <div className="space-y-1">
-          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Total Logistics Expenditure</span>
-          <h3 className="text-3xl font-extrabold text-[#00A99D]">
-            PHP {totalFleetExpense.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-          </h3>
-        </div>
-        <div className="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center text-[#00A99D]">
-          <Fuel size={28} />
-        </div>
-      </div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
+                <div className="form-group">
+                  <label className="form-label">Vehicle Plate Number</label>
+                  <input
+                    type="text"
+                    required
+                    value={plateNumber}
+                    onChange={(e) => setPlateNumber(e.target.value)}
+                    placeholder="e.g. NBC-8821, WEX-102"
+                    className="form-input"
+                  />
+                </div>
 
-      {showLogForm && (
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm max-w-3xl animate-scaleUp space-y-6">
-          <h2 className="text-lg font-bold text-gray-800 border-b pb-3 flex items-center gap-2">
-            Log Logistics Expense
-          </h2>
+                <div className="form-group">
+                  <label className="form-label">Driver Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={driverName}
+                    onChange={(e) => setDriverName(e.target.value)}
+                    placeholder="e.g. Juan Dela Cruz, Cardo Dalisay"
+                    className="form-input"
+                  />
+                </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600">Vehicle Plate Number</label>
+                <div className="form-group">
+                  <label className="form-label">Expense Type</label>
+                  <select
+                    value={expenseType}
+                    onChange={(e) => setExpenseType(e.target.value)}
+                    className="form-input"
+                  >
+                    <option value="Fuel">Fuel (Diesel / Gasoline)</option>
+                    <option value="Toll">Toll Fees (Expressway)</option>
+                    <option value="Maintenance">Maintenance (Repairs / Parts)</option>
+                    <option value="Allowance">Allowance (Food / Lodging)</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Expense Cost (PHP)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    required
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="e.g. 2500.00"
+                    className="form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Detail Description</label>
                 <input
                   type="text"
                   required
-                  value={plateNumber}
-                  onChange={(e) => setPlateNumber(e.target.value)}
-                  placeholder="e.g. NBC-8821, WEX-102"
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Write specific description details (e.g., Oil change, Shell station diesel)..."
+                  className="form-input"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600">Driver Name</label>
-                <input
-                  type="text"
-                  required
-                  value={driverName}
-                  onChange={(e) => setDriverName(e.target.value)}
-                  placeholder="e.g. Juan Dela Cruz, Cardo Dalisay"
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600">Expense Type</label>
-                <select
-                  value={expenseType}
-                  onChange={(e) => setExpenseType(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
+              <div className="flex gap-sm justify-end" style={{ marginTop: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowLogForm(false)}
+                  className="btn btn-outline"
                 >
-                  <option value="Fuel">Fuel (Diesel / Gasoline)</option>
-                  <option value="Toll">Toll Fees (Expressway)</option>
-                  <option value="Maintenance">Maintenance (Repairs / Parts)</option>
-                  <option value="Allowance">Allowance (Food / Lodging)</option>
-                </select>
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn btn-primary"
+                >
+                  {loading ? 'Logging...' : 'LOG COST'}
+                </button>
               </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-600">Expense Cost (PHP)</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  required
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="e.g. 2500.00"
-                  className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-600">Detail Description</label>
-              <input
-                type="text"
-                required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Write specific description details (e.g., Oil change, Shell station diesel)..."
-                className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00A99D]/20 focus:border-[#00A99D] transition-all"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-[#00A99D] hover:bg-[#009189] text-white font-bold rounded-xl shadow-md transition-all cursor-pointer"
-            >
-              {loading ? 'Logging...' : 'LOG COST'}
-            </button>
-          </form>
-        </div>
-      )}
-
-      {/* Expense list */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
-        <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2 border-b pb-3">
-          <FileText className="text-[#00A99D] w-5 h-5" />
-          Fleet Expenses Log
-        </h2>
-
-        {expenses.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 text-gray-400 gap-2">
-            <AlertCircle size={40} className="text-gray-300" />
-            <p>No operational fleet expenses logged.</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-gray-100 text-sm font-bold text-gray-400">
-                  <th className="py-3 px-4">Date</th>
-                  <th className="py-3 px-4">Vehicle Plate</th>
-                  <th className="py-3 px-4">Driver</th>
-                  <th className="py-3 px-4">Expense Type</th>
-                  <th className="py-3 px-4">Cost (PHP)</th>
-                  <th className="py-3 px-4">Description</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50 text-sm text-gray-700">
-                {expenses.map((exp) => (
-                  <tr key={exp.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="py-3 px-4 text-gray-500 font-semibold">{exp.date}</td>
-                    <td className="py-3 px-4 font-mono font-bold text-gray-800">{exp.plateNumber}</td>
-                    <td className="py-3 px-4 font-semibold text-gray-800">{exp.driverName}</td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                          exp.expenseType === 'Fuel'
-                            ? 'bg-amber-50 text-amber-600'
-                            : exp.expenseType === 'Maintenance'
-                            ? 'bg-rose-50 text-[#E31A1A]'
-                            : exp.expenseType === 'Toll'
-                            ? 'bg-blue-50 text-blue-600'
-                            : 'bg-indigo-50 text-indigo-600'
-                        }`}
-                      >
-                        {exp.expenseType}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 font-extrabold text-gray-900">
-                      PHP {exp.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                    </td>
-                    <td className="py-3 px-4 text-gray-500 max-w-sm truncate" title={exp.description}>
-                      {exp.description}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            </form>
           </div>
         )}
+
+        <div style={{ display: 'grid', gridTemplateColumns: pieChartData.length > 0 ? '2fr 1.2fr' : '1fr', gap: 'var(--gap)' }} className="dashboard-grid">
+          {/* Expenses list card */}
+          <div className="card">
+            <div className="card-header">
+              <h3 className="flex items-center gap-2">
+                <FileText size={16} color="var(--primary)" />
+                Fleet Expenses Log
+              </h3>
+              <span className="text-muted text-sm font-semibold">{expenses.length} total entries</span>
+            </div>
+
+            {expenses.length === 0 ? (
+              <div className="flex flex-col items-center justify-center p-12 text-gray-400 gap-2">
+                <AlertCircle size={40} className="text-gray-300" />
+                <p>No operational fleet expenses logged.</p>
+              </div>
+            ) : (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>DATE</th>
+                    <th>VEHICLE PLATE</th>
+                    <th>DRIVER</th>
+                    <th>EXPENSE TYPE</th>
+                    <th style={{ textAlign: 'right' }}>COST (PHP)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {expenses.map((exp) => (
+                    <tr key={exp.id}>
+                      <td>
+                        <div className="flex items-center gap-sm">
+                          <Calendar size={14} className="text-gray-400" />
+                          <span className="font-semibold text-gray-700">{formatDate(exp.date)}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="font-mono text-xs font-bold" style={{ background: '#F4F7FE', padding: '3px 8px', borderRadius: '4px', color: '#1B254B' }}>
+                          {exp.plateNumber}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="flex items-center gap-sm">
+                          <User size={14} className="text-gray-400" />
+                          <div>
+                            <span className="cell-name">{exp.driverName}</span>
+                            <div className="cell-sub text-xs text-gray-400">{exp.description}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span
+                          className="btn btn-sm"
+                          style={{
+                            background: exp.expenseType === 'Fuel' ? 'rgba(255, 181, 71, 0.1)'
+                                      : exp.expenseType === 'Maintenance' ? 'rgba(227, 26, 26, 0.1)'
+                                      : exp.expenseType === 'Toll' ? 'rgba(67, 24, 255, 0.1)'
+                                      : 'rgba(0, 169, 157, 0.1)',
+                            color: CATEGORY_COLORS[exp.expenseType] || '#8F9BBA',
+                            fontWeight: '800',
+                            padding: '3px 10px',
+                            borderRadius: 'var(--radius-full)',
+                            fontSize: '10px'
+                          }}
+                        >
+                          {exp.expenseType.toUpperCase()}
+                        </span>
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <span className="font-extrabold text-gray-800" style={{ color: '#1B254B' }}>
+                          {formatCurrency(exp.amount)}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          {/* Pie Chart Card */}
+          {pieChartData.length > 0 && (
+            <div className="card flex flex-col justify-between">
+              <div className="card-header">
+                <h3 className="flex items-center gap-2">
+                  <TrendingDown size={16} color="var(--primary)" />
+                  Operational Share
+                </h3>
+              </div>
+              <div style={{ width: '100%', height: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieChartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={3}
+                      dataKey="value"
+                    >
+                      {pieChartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={currencyTooltipFormatter} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '8px 4px' }}>
+                {pieChartData.map((entry) => (
+                  <div key={entry.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: entry.color }} />
+                      <span className="font-semibold text-gray-600">{entry.name}</span>
+                    </div>
+                    <span className="font-bold ml-auto text-gray-800">{formatCurrency(entry.value)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

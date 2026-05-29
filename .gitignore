@@ -17,3 +17,9 @@ node_modules/
 # OS
 Thumbs.db
 .DS_Store
+
+bin/
+obj/
+.vs/
+*.user
+*.suo
