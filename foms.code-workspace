@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "Frontend (React)",
+      "path": "Finance_Capstone-main"
+    },
+    {
+      "name": "Backend (Clean Architecture)",
+      "path": "Finance_Capstone-backend"
+    },
+    {
+      "name": "YARP Proxy",
+      "path": "Finance_Capstone-proxy"
+    }
+  ],
+  "settings": {}
+}

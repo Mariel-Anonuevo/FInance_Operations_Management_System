@@ -1,0 +1,17 @@
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.AssemblyInfo.cs
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Infrastructure.deps.json
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Infrastructure.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Infrastructure.pdb
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Application.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Domain.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Application.pdb
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\bin\Debug\net10.0\FOMS.Domain.pdb
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Inf.3101D4F3.Up2Date
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\refint\FOMS.Infrastructure.dll
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\FOMS.Infrastructure.pdb
+C:\Users\Crystalyn Joyce\Downloads\Finance_Capstone-main\Finance_Capstone-backend\FOMS.Infrastructure\obj\Debug\net10.0\ref\FOMS.Infrastructure.dll
