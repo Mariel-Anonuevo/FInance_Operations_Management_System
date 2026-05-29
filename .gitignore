@@ -1,1 +1,19 @@
+# .NET
 bin/
+obj/
+*.dll
+*.pdb
+*.cache
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
