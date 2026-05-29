@@ -1,2 +1,2 @@
-# Logistics-and-Transportation---Analytics
+# FINANCE OPERATIONS MANAGEMENT
 Capstone Project - Logistics and Transportation (Analytics)
