@@ -1,0 +1,49 @@
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.role-super-admin {
+  background: var(--role-super-admin);
+  color: white;
+}
+
+.role-admin {
+  background: var(--role-admin);
+  color: white;
+}
+
+.role-ops {
+  background: var(--role-ops-team);
+  color: white;
+}
+
+.role-driver {
+  background: #E9EDF7;
+  color: var(--text-primary);
+}
+
+.role-bookkeeper {
+  background: rgba(0, 169, 157, 0.1);
+  color: #00A99D;
+  border: 1px solid rgba(0, 169, 157, 0.2);
+}
+
+.role-accountant {
+  background: rgba(14, 116, 144, 0.1);
+  color: #0e7490;
+  border: 1px solid rgba(14, 116, 144, 0.2);
+}
+
+.role-payroll {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}

@@ -1,0 +1,547 @@
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  overflow-y: auto; /* allow scrolling as fallback */
+  overflow-x: hidden;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome/Safari */
+}
+
+.sidebar-logo {
+  padding: 32px 24px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: padding 0.3s ease;
+}
+
+.logo-image {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+.sidebar-role-section {
+  padding: 8px 24px 20px;
+  display: flex;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sidebar-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 30px;
+  border-radius: var(--radius-full);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.sidebar-role-badge.super-admin {
+  background: var(--primary);
+  box-shadow: 0 4px 10px rgba(0, 169, 157, 0.3);
+}
+
+.sidebar-role-badge.admin {
+  background: #2563EB; /* Bright Blue */
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.sidebar-role-badge.op-team {
+  background: #7C3AED; /* Purple */
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+}
+
+.sidebar-role-badge.employee {
+  background: #64748B; /* Slate */
+  box-shadow: 0 4px 10px rgba(100, 116, 139, 0.3);
+}
+
+.role-dot-inner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: padding 0.3s ease;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-section-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--sidebar-text);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 16px 12px 8px;
+  opacity: 0.7;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--sidebar-text);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: var(--sidebar-bg-hover);
+  color: var(--sidebar-text-active);
+}
+
+.nav-item-active {
+  background: linear-gradient(90deg, rgba(0, 169, 157, 0.08) 0%, rgba(0, 169, 157, 0.02) 100%);
+  color: var(--sidebar-text-active);
+}
+
+.nav-item-active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 5px;
+  bottom: 5px;
+  width: 6px;
+  background: var(--primary);
+  border-radius: 0 8px 8px 0;
+  box-shadow: 2px 0 8px rgba(0, 169, 157, 0.4);
+}
+
+.nav-item-label {
+  flex: 1;
+}
+
+.nav-badge {
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  min-width: 22px;
+  text-align: center;
+}
+
+.sidebar-footer-profile {
+  margin-top: auto;
+  padding: 24px 16px;
+  transition: padding 0.3s ease;
+}
+
+.sidebar-profile-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.profile-name {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-role {
+  color: var(--sidebar-text);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.profile-logout {
+  color: var(--sidebar-text);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.profile-logout:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+  position: absolute;
+  top: 24px;
+  right: -14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 110;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-toggle:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+/* Collapsed Sidebar Styles */
+.sidebar.collapsed {
+  width: 72px;
+  overflow-x: hidden;
+  align-items: center;
+}
+
+.sidebar.collapsed .sidebar-logo {
+  display: flex;
+  padding: 20px 0 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-logo img {
+  max-width: 50px;
+  height: auto;
+  object-fit: contain;
+}
+
+.sidebar.collapsed .sidebar-role-section {
+  display: none; /* Hide role section to save vertical space */
+}
+
+.sidebar.collapsed .sidebar-nav {
+  padding: 0 6px;
+  gap: 2px;
+}
+
+.sidebar.collapsed .nav-section {
+  width: 100%;
+  align-items: center;
+  gap: 2px;
+}
+
+.sidebar.collapsed .nav-section-title {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-section-header {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  margin: 8px auto 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar.collapsed .sidebar-section-header:hover {
+  background: var(--sidebar-bg-hover);
+  color: var(--sidebar-text-active);
+}
+
+.sidebar.collapsed .sidebar-section-header.active {
+  color: var(--primary);
+  background: rgba(0, 169, 157, 0.05);
+}
+
+.sidebar.collapsed .sidebar-section-header-left {
+  justify-content: center;
+  gap: 0;
+}
+
+.sidebar.collapsed .sidebar-section-header span,
+.sidebar.collapsed .sidebar-section-header .chevron {
+  display: none !important;
+}
+
+.sidebar.collapsed .sidebar-submenu {
+  margin-left: 0;
+  padding-left: 0;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+  border-left: none;
+}
+
+.sidebar.collapsed .nav-item {
+  width: 40px;
+  height: 34px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar.collapsed .nav-item-label {
+  display: none;
+}
+
+.sidebar.collapsed .nav-item-active::before {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-footer-profile {
+  padding: 12px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-profile-card {
+  padding: 0;
+  border: none;
+  background: transparent;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+}
+
+.sidebar.collapsed .profile-avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s ease;
+  margin: 0;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar.collapsed .profile-info {
+  display: none;
+}
+
+.sidebar.collapsed .profile-logout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  color: #EF4444;
+  padding: 0;
+  border: none;
+}
+
+.sidebar.collapsed .sidebar-profile-card:hover .profile-avatar {
+  opacity: 0;
+}
+
+.sidebar.collapsed .sidebar-profile-card:hover .profile-logout {
+  opacity: 1;
+}
+
+/* Collapsible Accordion Sections */
+.sidebar-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 12px 8px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.sidebar-section-header:hover {
+  background: none;
+  color: var(--sidebar-text-active);
+}
+
+.sidebar-section-header.active {
+  background: none;
+  color: var(--sidebar-text-active);
+}
+
+.sidebar-section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+}
+
+.sidebar-section-header-left svg {
+  color: var(--text-secondary);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.sidebar-section-header:hover .sidebar-section-header-left svg,
+.sidebar-section-header.active .sidebar-section-header-left svg {
+  color: var(--primary);
+  transform: scale(1.05);
+}
+
+.sidebar-section-header .chevron {
+  color: var(--text-secondary);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.sidebar-section-header:hover .chevron,
+.sidebar-section-header.active .chevron {
+  color: var(--sidebar-text-active);
+}
+
+.sidebar-section-header .chevron.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Accordion collapse wrappers */
+.sidebar-submenu-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.sidebar-submenu-wrapper.open {
+  grid-template-rows: 1fr;
+}
+
+.sidebar-submenu-content {
+  min-height: 0;
+}
+
+/* Submenu container (flat listing layout - no timeline or dots) */
+.sidebar-submenu {
+  margin-left: 12px;
+  padding-left: 0;
+  border-left: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  margin-top: 4px;
+}
+
+.sidebar-submenu .nav-item {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Active submenu item highlights via text color & background card */
+.sidebar-submenu .nav-item-active {
+  background: rgba(0, 169, 157, 0.06) !important;
+  color: var(--primary) !important;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-submenu .nav-item-active svg {
+  color: var(--primary) !important;
+}
+
+/* Remove any dot or bar indicators for submenu active state */
+.sidebar-submenu .nav-item-active::before,
+.sidebar-submenu .nav-item-active::after {
+  display: none !important;
+}
+
+/* Collapsed sidebar adjustments to fix logo overlap & layout */
+.sidebar.collapsed .sidebar-toggle {
+  top: 76px; /* Place below the logo */
+}
+
+.sidebar.collapsed .sidebar-logo {
+  padding: 24px 0 16px;
+}
+
+.sidebar.collapsed .sidebar-logo img {
+  max-width: 44px;
+  max-height: 28px;
+  object-fit: contain;
+}
+
+.sidebar.collapsed .sidebar-nav {
+  margin-top: 40px; /* Push nav items down to prevent overlapping the toggle button */
+}
+
+/* Collapsed Section Divider */
+.collapsed-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 10px 4px;
+  width: 32px;
+  align-self: center;
+}

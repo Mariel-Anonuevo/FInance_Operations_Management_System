@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: foms-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourSecurePassword123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+  backend:
+    build:
+      context: ./Finance_Capstone-backend
+      dockerfile: Dockerfile
+    container_name: foms-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=FOMS_Db;User Id=sa;Password=YourSecurePassword123!;TrustServerCertificate=True
+    ports:
+      - "5007:8080"
+    depends_on:
+      - mssql
+
+  frontend:
+    build:
+      context: ./Finance_Capstone-main
+      dockerfile: Dockerfile
+    container_name: foms-frontend
+    ports:
+      - "5173:80"
+
+  proxy:
+    build:
+      context: ./Finance_Capstone-proxy
+      dockerfile: Dockerfile
+    container_name: foms-proxy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ReverseProxy__Clusters__backend-cluster__Destinations__destination1__Address=http://backend:8080
+      - ReverseProxy__Clusters__frontend-cluster__Destinations__destination1__Address=http://frontend:80
+    ports:
+      - "5275:8080"
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  mssql-data:
