@@ -1,23 +1,38 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FOMS.Application.Features;
+using FOMS.Application.Interfaces;
+using FOMS.Domain.Entities;
 
 namespace FOMS.Api.Controllers;
 
-public class NotificationsController : ApiControllerBase
+[Authorize]
+[Route("api/notifications")]
+[ApiController]
+public class NotificationsController : ControllerBase
 {
-    [HttpGet]
-    public async Task<IActionResult> GetNotifications()
+    private readonly IRepository<Notification> _repository;
+    private readonly IApplicationDbContext _context;
+
+    public NotificationsController(IRepository<Notification> repository, IApplicationDbContext context)
     {
-        var notifications = await Mediator.Send(new NotificationFeatures.GetNotificationsQuery());
-        return Ok(notifications);
+        _repository = repository;
+        _context = context;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll() => Ok(await _repository.GetAllAsync());
+
+    [Authorize(Roles = "Bookkeeper,Accountant,Payroll Officer")]
     [HttpPut("{id}/read")]
     public async Task<IActionResult> MarkRead(string id)
     {
-        var result = await Mediator.Send(new NotificationFeatures.MarkNotificationReadCommand(id));
-        if (!result) return NotFound();
-        return Ok(new { success = true });
+        var notification = await _repository.GetByIdAsync(id);
+        if (notification == null) return NotFound();
+
+        notification.Read = true;
+        _context.Notifications.Update(notification);
+        await _context.SaveChangesAsync(default);
+        return Ok(notification);
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FOMS.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public abstract class ApiControllerBase : ControllerBase
 {
     private ISender? _mediator;

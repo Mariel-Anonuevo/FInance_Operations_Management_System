@@ -106,20 +106,6 @@ export default function AgingReport() {
           />
         </div>
 
-        <div className="stats-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 'var(--gap)' }}>
-          {bucketData.map((b) => (
-            <div key={b.bucket} className="card" style={{ textAlign: 'center', borderTop: `4px solid ${b.color}` }}>
-              <span className="label" style={{ color: b.color }}>
-                {b.bucket}
-              </span>
-              <h3 style={{ marginTop: '8px', fontSize: '1.4rem' }}>{formatCurrency(b.total)}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
-                {b.count} {b.count === 1 ? 'invoice' : 'invoices'}
-              </p>
-            </div>
-          ))}
-        </div>
-
         <div className="card chart-card">
           <div className="card-header">
             <h4>Aging Distribution</h4>

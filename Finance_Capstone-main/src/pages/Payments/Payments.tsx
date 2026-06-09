@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Search, Trash2, Download } from 'lucide-react';
+import { Search, Trash2, Download } from 'lucide-react';
 import Header from '../../components/layout/Header';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
@@ -75,9 +75,6 @@ export default function Payments() {
             <button className="btn btn-outline btn-sm" onClick={handleExport}>
               <Download size={14} /> Export CSV
             </button>
-            <Link to="/payments/new" className="btn btn-primary">
-              <Plus size={16} /> RECORD PAYMENT
-            </Link>
           </div>
         }
       />

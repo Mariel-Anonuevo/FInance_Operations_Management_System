@@ -40,6 +40,7 @@ export interface Client {
   totalBilled: number;
   totalPaid: number;
   status: ClientStatus;
+  archived?: boolean;
   dateRegistered: string;
   lastTransaction: string;
 }

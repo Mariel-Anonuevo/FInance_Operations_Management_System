@@ -20,4 +20,5 @@ public class Client
     public string Status { get; set; } = "Active"; // "Active" or "Inactive"
     public string DateRegistered { get; set; } = string.Empty;
     public string LastTransaction { get; set; } = string.Empty;
+    public bool Archived { get; set; }
 }

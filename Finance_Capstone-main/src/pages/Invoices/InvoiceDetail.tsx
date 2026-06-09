@@ -1,5 +1,5 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Pencil, Receipt, Printer, Trash2, FileText, User, Wallet, Archive as ArchiveIcon, Clock } from 'lucide-react';
+import { Receipt, Printer, FileText, User, Wallet, Archive as ArchiveIcon, Clock } from 'lucide-react';
 import Header from '../../components/layout/Header';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { useData } from '../../context/DataContext';
@@ -10,7 +10,7 @@ import './InvoiceDetail.css';
 export default function InvoiceDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { invoices, payments, clients, deleteInvoice, archiveInvoice, addActivityLog } = useData();
+  const { invoices, payments, clients, archiveInvoice, addActivityLog } = useData();
   const { user } = useAuth();
 
   const invoice = invoices.find((inv) => inv.id === id);
@@ -36,23 +36,7 @@ export default function InvoiceDetail() {
     .join('')
     .substring(0, 2);
 
-  const handleDelete = () => {
-    if (window.confirm(`Delete invoice ${invoice.invoiceNo}?`)) {
-      deleteInvoice(invoice.id);
-      addActivityLog({
-        id: Date.now().toString(),
-        timestamp: new Date().toLocaleString(),
-        userName: user?.name || 'System',
-        userRole: user?.role || 'OP. TEAM',
-        userInitials: initials,
-        userColor: '#E31A1A',
-        action: 'Update Invoice',
-        description: `Deleted invoice ${invoice.invoiceNo}`,
-        reference: invoice.invoiceNo,
-      });
-      navigate('/invoices');
-    }
-  };
+  // delete removed from UI; invoices are archived instead
 
   const handleArchive = () => {
     archiveInvoice(invoice.id, !invoice.archived);
@@ -77,9 +61,6 @@ export default function InvoiceDetail() {
         date={new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         actions={
           <div className="flex gap-sm">
-            <Link to={`/invoices/${invoice.id}/edit`} className="btn btn-outline btn-sm">
-              <Pencil size={14} /> Edit Invoice
-            </Link>
             <button className="btn btn-primary btn-sm" onClick={() => navigate('/payments/new', { state: { invoiceId: invoice.id } })}>
               <Receipt size={14} /> Record Payment
             </button>
@@ -261,9 +242,7 @@ export default function InvoiceDetail() {
                 >
                   <Receipt size={16} /> RECORD PAYMENT
                 </button>
-                <Link to={`/invoices/${invoice.id}/edit`} className="btn btn-outline">
-                  <Pencil size={16} /> EDIT INVOICE
-                </Link>
+                {/* Edit removed from UI */}
                 <Link to={`/invoices/${invoice.id}/history`} className="btn btn-outline">
                   <Clock size={16} /> VIEW HISTORY
                 </Link>
@@ -273,11 +252,7 @@ export default function InvoiceDetail() {
                 <button className="btn btn-outline" onClick={handleArchive}>
                   <ArchiveIcon size={16} /> {invoice.archived ? 'RESTORE' : 'ARCHIVE'}
                 </button>
-                {user?.role === 'Accountant' && (
-                  <button className="btn btn-danger" onClick={handleDelete}>
-                    <Trash2 size={16} /> DELETE INVOICE
-                  </button>
-                )}
+                {/* Delete removed from UI */}
               </div>
             </div>
 

@@ -27,4 +27,14 @@ public class ClientsController : ApiControllerBase
         if (!result) return NotFound();
         return Ok(new { success = true });
     }
+
+    public record ArchiveRequest(bool Archived);
+
+    [HttpPut("{id}/archive")]
+    public async Task<IActionResult> ArchiveClient(string id, [FromBody] ArchiveRequest request)
+    {
+        var result = await Mediator.Send(new ClientFeatures.ArchiveClientCommand(id, request.Archived));
+        if (!result) return NotFound();
+        return Ok(new { success = true });
+    }
 }

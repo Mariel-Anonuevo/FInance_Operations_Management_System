@@ -95,7 +95,45 @@ public static class ApplicationDbContextSeed
             await context.SaveChangesAsync();
         }
 
-        // 3. Seed Invoices
+        // 3. Seed Client Accounts
+        if (!await context.ClientAccounts.AnyAsync())
+        {
+            var accountList = new List<ClientAccount>
+            {
+                new ClientAccount { Id = "CA-001", Name = "Lazada Account", BusinessName = "Lazada E-Services Philippines, Inc.", ContactPerson = "Maria Dela Cruz", Email = "finance@lazada.com.ph", PhoneNumber = "0917-123-4567", Address = "Rockwell Dr., Brgy. Poblacion, Makati City", Status = "Active", CreditLimit = 500000, CurrentBalance = 53200, DateRegistered = DateTime.Parse("2024-11-26") },
+                new ClientAccount { Id = "CA-002", Name = "Shopee Express Account", BusinessName = "Shopee Xpress PH, Inc.", ContactPerson = "Jose Santos", Email = "ap@shopee.ph", PhoneNumber = "0917-555-9876", Address = "Ayala Ave., Makati City", Status = "Active", CreditLimit = 450000, CurrentBalance = 0, DateRegistered = DateTime.Parse("2024-12-26") },
+                new ClientAccount { Id = "CA-003", Name = "TikTok Shop Account", BusinessName = "TikTok Shop Philippines, Inc.", ContactPerson = "Robert Lim", Email = "billing@tiktok.ph", PhoneNumber = "0917-333-4444", Address = "BGC High St., Taguig City", Status = "Active", CreditLimit = 300000, CurrentBalance = 29550, DateRegistered = DateTime.Parse("2025-01-25") }
+            };
+            context.ClientAccounts.AddRange(accountList);
+            await context.SaveChangesAsync();
+        }
+
+        // 4. Seed Billing Invoices
+        if (!await context.BillingInvoices.AnyAsync())
+        {
+            var billingInvoiceList = new List<BillingInvoice>
+            {
+                new BillingInvoice { Id = "BI-2026-0001", InvoiceNumber = "BI-2026-0001", ClientAccountId = "CA-001", IssueDate = DateTime.Parse("2026-05-15"), DueDate = DateTime.Parse("2026-06-14"), TotalAmount = 53200, AmountPaid = 0, PaymentStatus = "Unpaid", Description = "Metro Manila route freight charges" },
+                new BillingInvoice { Id = "BI-2026-0002", InvoiceNumber = "BI-2026-0002", ClientAccountId = "CA-002", IssueDate = DateTime.Parse("2026-05-12"), DueDate = DateTime.Parse("2026-06-11"), TotalAmount = 33700, AmountPaid = 33700, PaymentStatus = "Paid", Description = "Last-mile delivery service charges" },
+                new BillingInvoice { Id = "BI-2026-0003", InvoiceNumber = "BI-2026-0003", ClientAccountId = "CA-003", IssueDate = DateTime.Parse("2026-05-08"), DueDate = DateTime.Parse("2026-06-07"), TotalAmount = 29550, AmountPaid = 0, PaymentStatus = "Unpaid", Description = "BGC route freight charges" }
+            };
+            context.BillingInvoices.AddRange(billingInvoiceList);
+            await context.SaveChangesAsync();
+        }
+
+        // 5. Seed Receivable Balances
+        if (!await context.ReceivableBalances.AnyAsync())
+        {
+            var receivableList = new List<ReceivableBalance>
+            {
+                new ReceivableBalance { Id = "RB-2026-0001", ClientAccountId = "CA-001", BillingInvoiceId = "BI-2026-0001", BalanceAmount = 53200, DueDate = DateTime.Parse("2026-06-14") },
+                new ReceivableBalance { Id = "RB-2026-0002", ClientAccountId = "CA-003", BillingInvoiceId = "BI-2026-0003", BalanceAmount = 29550, DueDate = DateTime.Parse("2026-06-07") }
+            };
+            context.ReceivableBalances.AddRange(receivableList);
+            await context.SaveChangesAsync();
+        }
+
+        // 6. Seed Invoices
         if (!await context.Invoices.AnyAsync())
         {
             var invoiceList = new List<Invoice>

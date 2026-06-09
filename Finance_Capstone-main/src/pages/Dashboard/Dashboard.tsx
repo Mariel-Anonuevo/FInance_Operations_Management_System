@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Wallet, AlertTriangle, Users, TrendingUp, FileText, Receipt, Plus } from 'lucide-react';
+import { Wallet, AlertTriangle, Users, TrendingUp, Plus } from 'lucide-react';
 import Header from '../../components/layout/Header';
 import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
@@ -125,38 +125,6 @@ export default function Dashboard() {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="card-header">
-              <h3>Quick Actions</h3>
-            </div>
-            <div className="quick-actions-grid">
-              <button className="quick-action-btn" onClick={() => navigate('/invoices/new')}>
-                <div className="quick-action-icon" style={{ background: 'var(--status-transit-bg)' }}>
-                  <FileText size={22} color="var(--primary)" />
-                </div>
-                <span>New Invoice</span>
-              </button>
-              <button className="quick-action-btn" onClick={() => navigate('/payments/new')}>
-                <div className="quick-action-icon" style={{ background: 'var(--status-active-bg)' }}>
-                  <Receipt size={22} color="var(--status-active)" />
-                </div>
-                <span>Record Payment</span>
-              </button>
-              <button className="quick-action-btn" onClick={() => navigate('/clients/new')}>
-                <div className="quick-action-icon" style={{ background: 'var(--status-new-bg)' }}>
-                  <Users size={22} color="var(--status-new)" />
-                </div>
-                <span>Add Client</span>
-              </button>
-              <button className="quick-action-btn" onClick={() => navigate('/overdue')}>
-                <div className="quick-action-icon" style={{ background: 'var(--status-failed-bg)' }}>
-                  <AlertTriangle size={22} color="var(--status-failed)" />
-                </div>
-                <span>Overdue</span>
-              </button>
             </div>
           </div>
         </div>

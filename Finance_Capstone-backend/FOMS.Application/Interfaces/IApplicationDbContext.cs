@@ -21,6 +21,29 @@ public interface IApplicationDbContext
     DbSet<TransportationExpense> TransportationExpenses { get; }
     DbSet<SupportTicket> SupportTickets { get; }
     DbSet<PaymentValidation> PaymentValidations { get; }
+    DbSet<Role> Roles { get; }
+    DbSet<RefreshToken> RefreshTokens { get; }
+    DbSet<UserActivityLog> UserActivityLogs { get; }
+    DbSet<AuditLog> AuditLogs { get; }
+    DbSet<ClientAccount> ClientAccounts { get; }
+    DbSet<ShipmentRecord> ShipmentRecords { get; }
+    DbSet<ShipmentPricing> ShipmentPricings { get; }
+    DbSet<BillingInvoice> BillingInvoices { get; }
+    DbSet<StatementOfAccount> StatementOfAccounts { get; }
+    DbSet<PaymentCollection> PaymentCollections { get; }
+    DbSet<OfficialReceipt> OfficialReceipts { get; }
+    DbSet<ReceivableBalance> ReceivableBalances { get; }
+    DbSet<AgingAccount> AgingAccounts { get; }
+    DbSet<CashFlowTransaction> CashFlowTransactions { get; }
+    DbSet<ChartOfAccount> ChartOfAccounts { get; }
+    DbSet<GeneralLedgerEntry> GeneralLedgerEntries { get; }
+    DbSet<JournalEntry> JournalEntries { get; }
+    DbSet<TrialBalance> TrialBalances { get; }
+    DbSet<PayrollRecord> PayrollRecords { get; }
+    DbSet<Payslip> Payslips { get; }
+    DbSet<BankAdviceRecord> BankAdviceRecords { get; }
+    DbSet<PaymentConcernTicket> PaymentConcernTickets { get; }
+    DbSet<DeliveryPaymentValidation> DeliveryPaymentValidations { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

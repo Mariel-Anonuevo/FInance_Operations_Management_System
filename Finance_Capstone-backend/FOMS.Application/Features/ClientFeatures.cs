@@ -67,7 +67,8 @@ public static class ClientFeatures
                 TotalPaid = 0,
                 Status = "Active",
                 DateRegistered = DateTime.UtcNow.ToString("MMM dd, yyyy"),
-                LastTransaction = "—"
+                LastTransaction = "—",
+                Archived = false
             };
 
             _context.Clients.Add(client);
@@ -93,6 +94,28 @@ public static class ClientFeatures
             if (client == null) return false;
 
             _context.Clients.Remove(client);
+            await _context.SaveChangesAsync(cancellationToken);
+            return true;
+        }
+    }
+
+    public record ArchiveClientCommand(string Id, bool Archived) : IRequest<bool>;
+
+    public class ArchiveClientCommandHandler : IRequestHandler<ArchiveClientCommand, bool>
+    {
+        private readonly IApplicationDbContext _context;
+
+        public ArchiveClientCommandHandler(IApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<bool> Handle(ArchiveClientCommand request, CancellationToken cancellationToken)
+        {
+            var client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+            if (client == null) return false;
+
+            client.Archived = request.Archived;
             await _context.SaveChangesAsync(cancellationToken);
             return true;
         }

@@ -81,12 +81,11 @@ export default function App() {
             <Route path="/clients" element={<Clients />} />
             <Route path="/clients/new" element={<ClientForm />} />
             <Route path="/clients/:id" element={<ClientDetail />} />
-            <Route path="/clients/:id/edit" element={<ClientForm />} />
             <Route path="/pricing" element={<ShipmentPricing />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/invoices/new" element={<InvoiceForm />} />
             <Route path="/invoices/:id" element={<InvoiceDetail />} />
-            <Route path="/invoices/:id/edit" element={<InvoiceForm />} />
+            
             <Route path="/invoices/:id/history" element={<InvoiceHistoryLog />} />
             <Route path="/aging" element={<AgingReport />} />
             <Route path="/overdue" element={<OverdueAccounts />} />

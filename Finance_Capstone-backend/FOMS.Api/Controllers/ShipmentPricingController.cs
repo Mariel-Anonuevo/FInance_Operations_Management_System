@@ -1,22 +1,52 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FOMS.Application.Features;
+using FOMS.Application.Interfaces;
+using FOMS.Domain.Entities;
 
 namespace FOMS.Api.Controllers;
 
-public class ShipmentPricingController : ApiControllerBase
+[Authorize]
+[Route("api/shipment-pricing")]
+[ApiController]
+public class ShipmentPricingController : ControllerBase
 {
-    [HttpGet("rates")]
-    public async Task<IActionResult> GetRates()
+    private readonly IRepository<ShipmentPricing> _repository;
+    private readonly IApplicationDbContext _context;
+
+    public ShipmentPricingController(IRepository<ShipmentPricing> repository, IApplicationDbContext context)
     {
-        var rates = await Mediator.Send(new ShipmentPricingFeatures.GetRatesQuery());
-        return Ok(rates);
+        _repository = repository;
+        _context = context;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var items = await _repository.GetAllAsync();
+        return Ok(items);
+    }
+
+    [Authorize(Roles = "Accountant,Bookkeeper")]
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] ShipmentPricing request)
+    {
+        await _repository.AddAsync(request);
+        await _context.SaveChangesAsync(default);
+        return CreatedAtAction(nameof(GetById), new { id = request.Id }, request);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var item = await _repository.GetByIdAsync(id);
+        return item == null ? NotFound() : Ok(item);
     }
 
     [HttpPost("compute")]
-    public async Task<IActionResult> Compute([FromBody] ShipmentPricingFeatures.ComputePriceCommand command)
+    public IActionResult Compute([FromBody] ShipmentPricing request)
     {
-        var result = await Mediator.Send(command);
-        return Ok(result);
+        var estimatedCharge = request.BaseRate + (request.RatePerKg * request.MinimumCharge);
+        return Ok(new { request.Origin, request.Destination, EstimatedCharge = estimatedCharge });
     }
 }

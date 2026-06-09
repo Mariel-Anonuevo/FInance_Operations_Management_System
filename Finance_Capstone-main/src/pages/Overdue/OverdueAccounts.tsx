@@ -163,13 +163,7 @@ export default function OverdueAccounts() {
                         <button className="action-icon-btn" title="View" onClick={() => navigate(`/invoices/${inv.id}`)}>
                           <Eye size={14} />
                         </button>
-                        <button
-                          className="action-icon-btn"
-                          title="Record Payment"
-                          onClick={() => navigate('/payments/new', { state: { invoiceId: inv.id } })}
-                        >
-                          <Receipt size={14} />
-                        </button>
+                        {/* Record Payment action removed to make this view read-only for collections */}
                       </td>
                     </tr>
                   );

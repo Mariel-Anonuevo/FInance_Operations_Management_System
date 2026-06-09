@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Search, Filter, Eye, Pencil, Trash2, Archive as ArchiveIcon } from 'lucide-react';
+import { Plus, Search, Filter, Eye, Archive as ArchiveIcon } from 'lucide-react';
 import Header from '../../components/layout/Header';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { useData } from '../../context/DataContext';
@@ -10,7 +10,7 @@ import './Invoices.css';
 
 export default function Invoices() {
   const navigate = useNavigate();
-  const { invoices, clients, deleteInvoice, archiveInvoice, addActivityLog } = useData();
+  const { invoices, clients, archiveInvoice, addActivityLog } = useData();
   const { user } = useAuth();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,26 +43,7 @@ export default function Invoices() {
   const paidCount = filtered.filter((inv) => inv.paymentStatus === 'Paid').length;
   const unpaidCount = filtered.filter((inv) => inv.paymentStatus === 'Unpaid').length;
 
-  const handleDelete = (id: string, invoiceNo: string) => {
-    if (window.confirm(`Delete invoice ${invoiceNo}? This cannot be undone.`)) {
-      deleteInvoice(id);
-      addActivityLog({
-        id: Date.now().toString(),
-        timestamp: new Date().toLocaleString(),
-        userName: user?.name || 'System',
-        userRole: user?.role || 'OP. TEAM',
-        userInitials: (user?.name || 'SY')
-          .split(' ')
-          .map((n) => n[0])
-          .join('')
-          .substring(0, 2),
-        userColor: '#E31A1A',
-        action: 'Update Invoice',
-        description: `Deleted invoice ${invoiceNo}`,
-        reference: invoiceNo,
-      });
-    }
-  };
+  // delete action removed — invoices are archive-only from UI
 
   const handleArchive = (id: string, invoiceNo: string) => {
     archiveInvoice(id, true);
@@ -261,9 +242,6 @@ export default function Invoices() {
                       <button className="action-icon-btn" title="View" onClick={() => navigate(`/invoices/${inv.id}`)}>
                         <Eye size={14} />
                       </button>
-                      <button className="action-icon-btn" title="Edit" onClick={() => navigate(`/invoices/${inv.id}/edit`)}>
-                        <Pencil size={14} />
-                      </button>
                       <button
                         className="action-icon-btn"
                         title="Archive"
@@ -271,15 +249,7 @@ export default function Invoices() {
                       >
                         <ArchiveIcon size={14} />
                       </button>
-                      {user?.role === 'Accountant' && (
-                        <button
-                          className="action-icon-btn danger"
-                          title="Delete"
-                          onClick={() => handleDelete(inv.id, inv.invoiceNo)}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      )}
+                      {/* Delete removed from UI; archive available above */}
                     </td>
                   </tr>
                 ))

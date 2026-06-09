@@ -7,9 +7,7 @@ import {
   Settings2,
   CheckSquare,
   HelpCircle,
-  Plus,
   Search,
-  TrendingUp,
   TrendingDown,
   Clock,
   CheckCircle,
@@ -196,61 +194,8 @@ export default function BookkeeperDashboard() {
           />
         </div>
 
-        {/* ─── Quick Actions + Outstanding Summary ─── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 'var(--gap)' }}>
-
-          {/* Quick Actions */}
-          <div className="bk-module-card">
-            <div className="bk-section-header">
-              <div className="bk-section-title">
-                <div className="bk-section-icon" style={{ background: 'var(--status-transit-bg)' }}>
-                  <TrendingUp size={16} color="var(--primary)" />
-                </div>
-                Quick Actions
-              </div>
-            </div>
-            <div className="bk-quick-actions">
-              <button className="bk-quick-btn" onClick={() => navigate('/payments/new')} style={{ background: '#1B254B', border: 'none' }}>
-                <div className="bk-quick-btn-icon" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                  <Plus size={20} color="#fff" />
-                </div>
-                <span style={{ color: '#fff' }}>Record Payment</span>
-              </button>
-              <button className="bk-quick-btn" onClick={() => navigate('/official-receipts')}>
-                <div className="bk-quick-btn-icon" style={{ background: 'rgba(0,169,157,0.1)' }}>
-                  <Receipt size={20} color="var(--primary)" />
-                </div>
-                <span>Issue Receipt</span>
-              </button>
-              <button className="bk-quick-btn" onClick={() => navigate('/adjustments')}>
-                <div className="bk-quick-btn-icon" style={{ background: 'rgba(255,181,71,0.1)' }}>
-                  <Settings2 size={20} color="#E09A00" />
-                </div>
-                <span>Adjustment</span>
-              </button>
-              <button className="bk-quick-btn" onClick={() => navigate('/support')}>
-                <div className="bk-quick-btn-icon" style={{ background: 'rgba(67,24,255,0.1)' }}>
-                  <HelpCircle size={20} color="#4318FF" />
-                </div>
-                <span>New Ticket</span>
-              </button>
-              <button className="bk-quick-btn" onClick={() => navigate('/validations')}>
-                <div className="bk-quick-btn-icon" style={{ background: 'rgba(1,181,116,0.1)' }}>
-                  <CheckSquare size={20} color="var(--status-active)" />
-                </div>
-                <span>Validate COD</span>
-              </button>
-              <button className="bk-quick-btn" onClick={() => navigate('/outstanding-balances')}>
-                <div className="bk-quick-btn-icon" style={{ background: 'rgba(227,26,26,0.1)' }}>
-                  <AlertTriangle size={20} color="var(--status-failed)" />
-                </div>
-                <span>View Balances</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Outstanding Balance Snapshot */}
-          <div className="bk-module-card">
+        {/* ─── Outstanding Balance Snapshot ─── */}
+        <div className="bk-module-card" style={{ gridColumn: '1 / -1' }}>
             <div className="bk-section-header">
               <div className="bk-section-title">
                 <div className="bk-section-icon" style={{ background: 'rgba(227,26,26,0.1)' }}>
@@ -304,7 +249,6 @@ export default function BookkeeperDashboard() {
               </tbody>
             </table>
           </div>
-        </div>
 
         {/* ─── Payment Collection ─── */}
         <div className="bk-module-card">
@@ -314,16 +258,6 @@ export default function BookkeeperDashboard() {
                 <CircleDollarSign size={16} color="var(--primary)" />
               </div>
               Payment Collection
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <button className="bk-view-all" onClick={() => navigate('/payments')}>View All →</button>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => navigate('/payments/new')}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Plus size={14} /> Record Payment
-              </button>
             </div>
           </div>
 

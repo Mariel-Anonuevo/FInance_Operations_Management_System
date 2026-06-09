@@ -46,6 +46,7 @@ interface DataContextType {
   addClient: (client: Client) => Promise<void>;
   updateClient: (id: string, client: Partial<Client>) => void;
   deleteClient: (id: string) => Promise<void>;
+  archiveClient: (id: string, archived?: boolean) => Promise<void>;
 
   addInvoice: (invoice: Invoice) => Promise<void>;
   updateInvoice: (id: string, invoice: Partial<Invoice>) => void;
@@ -260,6 +261,19 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
     } catch (err) {
       console.error("Failed to delete client on API backend.", err);
+    }
+  };
+
+  const archiveClient = async (id: string, archived: boolean = true) => {
+    setClients((prev) => prev.map((c) => (c.id === id ? { ...c, archived } : c)));
+    try {
+      await fetch(`/api/v1/clients/${id}/archive`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ archived }),
+      });
+    } catch (err) {
+      console.error('Failed to archive client on API backend.', err);
     }
   };
 
@@ -629,6 +643,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         addClient,
         updateClient,
         deleteClient,
+        archiveClient,
         addInvoice,
         updateInvoice,
         deleteInvoice,

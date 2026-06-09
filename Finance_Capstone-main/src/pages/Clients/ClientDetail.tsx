@@ -1,10 +1,9 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Pencil, Receipt, FileText, Wallet, AlertTriangle, User } from 'lucide-react';
+import { Receipt, FileText, Wallet, AlertTriangle, User } from 'lucide-react';
 import Header from '../../components/layout/Header';
 import StatCard from '../../components/ui/StatCard';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { useData } from '../../context/DataContext';
-import { useAuth } from '../../context/AuthContext';
 import { formatCurrency, formatDate } from '../../utils/finance';
 import '../Invoices/InvoiceDetail.css';
 import '../Invoices/Invoices.css';
@@ -13,8 +12,6 @@ export default function ClientDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { clients, invoices, payments } = useData();
-  const { user } = useAuth();
-  const isAdmin = user?.role === 'Accountant';
 
   const client = clients.find((c) => c.id === id);
 
@@ -41,11 +38,6 @@ export default function ClientDetail() {
         date={new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         actions={
           <div className="flex gap-sm">
-            {isAdmin && (
-              <Link to={`/clients/${client.id}/edit`} className="btn btn-outline btn-sm">
-                <Pencil size={14} /> Edit Client
-              </Link>
-            )}
             <button className="btn btn-primary btn-sm" onClick={() => navigate('/invoices/new')}>
               <FileText size={14} /> New Invoice
             </button>

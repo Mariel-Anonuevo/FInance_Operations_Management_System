@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FOMS.Application.Interfaces;
 using FOMS.Infrastructure.Persistence;
+using FOMS.Infrastructure.Repositories;
 
 namespace FOMS.Infrastructure;
 
@@ -17,6 +18,7 @@ public static class DependencyInjection
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
         return services;
     }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Search, Eye, Pencil, Trash2 } from 'lucide-react';
+import { Search, Eye, Archive } from 'lucide-react';
 import Header from '../../components/layout/Header';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { useData } from '../../context/DataContext';
@@ -10,7 +10,7 @@ import '../Invoices/Invoices.css';
 
 export default function Clients() {
   const navigate = useNavigate();
-  const { clients, deleteClient, addActivityLog } = useData();
+  const { clients, archiveClient, addActivityLog } = useData();
   const { user } = useAuth();
   const isAdmin = user?.role === 'Accountant';
 
@@ -19,6 +19,7 @@ export default function Clients() {
 
   const filtered = useMemo(() => {
     return clients.filter((c) => {
+      if (c.archived) return false;
       const term = searchTerm.toLowerCase();
       const matchSearch =
         !term ||
@@ -34,9 +35,9 @@ export default function Clients() {
   const activeCount = filtered.filter((c) => c.status === 'Active').length;
   const inactiveCount = filtered.filter((c) => c.status === 'Inactive').length;
 
-  const handleDelete = (id: string, name: string) => {
-    if (window.confirm(`Delete client ${name}? This cannot be undone.`)) {
-      deleteClient(id);
+  const handleArchive = (id: string, name: string) => {
+    if (window.confirm(`Archive client ${name}? This will hide the client from active lists.`)) {
+      archiveClient(id);
       addActivityLog({
         id: Date.now().toString(),
         timestamp: new Date().toLocaleString(),
@@ -44,8 +45,8 @@ export default function Clients() {
         userRole: user?.role || 'OP. TEAM',
         userInitials: (user?.name || 'SY').split(' ').map((n) => n[0]).join('').substring(0, 2),
         userColor: '#E31A1A',
-        action: 'Update Client',
-        description: `Deleted client ${name}`,
+        action: 'Archive',
+        description: `Archived client ${name}`,
         reference: id,
       });
     }
@@ -57,13 +58,6 @@ export default function Clients() {
         title="Clients"
         subtitle="FOMS · Finance Operations"
         date={new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-        actions={
-          isAdmin && (
-            <Link to="/clients/new" className="btn btn-primary">
-              <Plus size={16} /> NEW CLIENT
-            </Link>
-          )
-        }
       />
       <div className="page-content">
         <div className="order-stats-bar">
@@ -156,13 +150,8 @@ export default function Clients() {
                         <Eye size={14} />
                       </button>
                       {isAdmin && (
-                        <button className="action-icon-btn" title="Edit" onClick={() => navigate(`/clients/${c.id}/edit`)}>
-                          <Pencil size={14} />
-                        </button>
-                      )}
-                      {isAdmin && (
-                        <button className="action-icon-btn danger" title="Delete" onClick={() => handleDelete(c.id, c.name)}>
-                          <Trash2 size={14} />
+                        <button className="action-icon-btn danger" title="Archive" onClick={() => handleArchive(c.id, c.name)}>
+                          <Archive size={14} />
                         </button>
                       )}
                     </td>
