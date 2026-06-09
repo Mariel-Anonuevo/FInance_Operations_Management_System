@@ -1,0 +1,332 @@
+/* ─── Bookkeeper Dashboard ─── */
+
+/* Layout */
+.bk-dashboard {
+  padding: var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Page Header */
+.bk-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.bk-page-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bk-page-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.bk-page-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bk-page-header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Stats Row */
+.bk-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+
+/* Module Grid — 3 cols */
+.bk-module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+/* Module Grid — 2 cols */
+.bk-module-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+}
+
+/* Section Header */
+.bk-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.bk-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bk-section-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bk-view-all {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.bk-view-all:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+/* Data Table */
+.bk-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bk-table thead tr {
+  background: #1B254B;
+}
+
+.bk-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  white-space: nowrap;
+}
+
+.bk-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.bk-table tbody tr {
+  transition: background 0.15s;
+}
+
+.bk-table tbody tr:hover {
+  background: rgba(0, 169, 157, 0.05);
+  cursor: pointer;
+}
+
+.bk-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.bk-table-empty {
+  text-align: center;
+  padding: 28px 16px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* Cell helpers */
+.bk-cell-primary {
+  font-weight: 700;
+  color: var(--primary) !important;
+}
+
+.bk-cell-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Status badges */
+.bk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bk-badge-green  { background: rgba(1,181,116,0.12);  color: #01B574; }
+.bk-badge-red    { background: rgba(227,26,26,0.12);  color: #E31A1A; }
+.bk-badge-yellow { background: rgba(255,181,71,0.12); color: #E09A00; }
+.bk-badge-teal   { background: rgba(0,169,157,0.12);  color: #00A99D; }
+.bk-badge-blue   { background: rgba(67,24,255,0.12);  color: #4318FF; }
+.bk-badge-gray   { background: rgba(163,174,208,0.15); color: #718096; }
+.bk-badge-orange { background: rgba(255,123,66,0.12); color: #FF7B42; }
+
+/* Quick Actions */
+.bk-quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.bk-quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.bk-quick-btn:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.bk-quick-btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bk-quick-btn span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Search Bar */
+.bk-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.bk-search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+}
+
+.bk-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.bk-search-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.bk-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,169,157,0.1);
+}
+
+.bk-search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Module Cards */
+.bk-module-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--card-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Progress bar */
+.bk-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+  flex: 1;
+}
+
+.bk-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .bk-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bk-module-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .bk-stats-row {
+    grid-template-columns: 1fr;
+  }
+  .bk-module-grid,
+  .bk-module-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
